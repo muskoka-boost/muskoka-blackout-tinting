@@ -16,5 +16,5 @@ Requires PHP 7.4+ with `mail()` enabled (cPanel default).
 
 ## Photo credits
 - Owner photos, logo and flyers: supplied by Muskoka Blackout Tinting.
-- Tint installation photos: Pexels (photos 31154210, 31154212, 31154214, 16052482), free under the Pexels License.
+- Tint installation photos: Pexels (photos 31154210, 31154212, 31154214, 14754834), free under the Pexels License.
 - Car photos: Unsplash (photo-1771220647873), free under the Unsplash License.
