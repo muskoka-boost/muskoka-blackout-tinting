@@ -5,6 +5,7 @@
  */
 declare(strict_types=1);
 
+date_default_timezone_set('America/Toronto');
 $cfg = require __DIR__ . '/config.php';
 
 $wantsJson = stripos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false;
@@ -57,7 +58,7 @@ if (count($hits) >= (int)$cfg['RATE_LIMIT_PER_HOUR']) {
 $clean = function (string $key, int $max) {
     $v = trim((string)($_POST[$key] ?? ''));
     $v = str_replace(["\r", "\0"], '', $v);
-    return mb_substr($v, 0, $max);
+    return function_exists('mb_substr') ? mb_substr($v, 0, $max) : substr($v, 0, $max);
 };
 $oneLine = fn(string $v) => preg_replace('/[\n\t]+/', ' ', $v);
 
