@@ -171,7 +171,7 @@
         <div class="shades__copy reveal">
           <p class="kicker">Pick your shade</p>
           <h2>How dark do you want to go?</h2>
-          <p>Tint is measured in <b>VLT</b> (visible light transmission), which is the percentage of light that gets through the glass. A lower number means a darker window. Drag the slider to compare.</p>
+          <p>Tint is measured in <b>VLT</b> (visible light transmission), which is the percentage of light that gets through the glass. A lower number means a darker window. Drag the slider to see the view through the passenger window change.</p>
           <div class="shades__chips" role="group" aria-label="Shade presets">
             <button type="button" data-vlt="70">70%</button>
             <button type="button" data-vlt="50">50%</button>
@@ -183,9 +183,8 @@
         </div>
         <div class="shades__demo reveal">
           <div class="window" style="--vlt:35">
-            <img src="assets/img/scene.jpg" alt="Tint shade preview over a bright auto shop scene" loading="lazy">
-            <div class="window__film"></div>
-            <div class="window__glare"></div>
+            <img src="assets/img/window-view.jpg" alt="Looking out a car's passenger side window at a snowy field, with the selected tint shade applied to the glass" loading="lazy" width="1600" height="1067">
+            <div class="window__film" aria-hidden="true"></div>
             <div class="window__badge"><b id="vltOut">35%</b><span id="vltName">Medium</span></div>
           </div>
           <label class="slider">
