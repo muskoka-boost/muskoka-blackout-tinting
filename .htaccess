@@ -1,0 +1,29 @@
+# cPanel / Apache settings for Muskoka Blackout Tinting
+Options -Indexes
+DirectoryIndex index.html
+
+<Files "config.php">
+  Require all denied
+</Files>
+<FilesMatch "^(README\.md|\.git.*)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+</IfModule>
+
+# Force HTTPS (uncomment once SSL/AutoSSL is active on the domain)
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
