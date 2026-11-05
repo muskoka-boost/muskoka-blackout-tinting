@@ -16,5 +16,4 @@ Requires PHP 7.4+ with `mail()` enabled (cPanel default).
 
 ## Photo credits
 - Owner photos, logo, flyers and the Ford F-150 shade-preview photo: supplied by Muskoka Blackout Tinting.
-- Tint installation photos: Pexels (photos 31154210, 31154212, 31154214), free under the Pexels License.
-- Car photos: Unsplash (photo-1771220647873), free under the Unsplash License.
+- Tint installation photos: Pexels (photo 31154212), free under the Pexels License.
