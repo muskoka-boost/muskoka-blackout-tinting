@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=6">
+  <link rel="stylesheet" href="assets/css/styles.css?v=9">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -55,6 +55,7 @@
       </a>
       <nav class="nav__links" aria-label="Main">
         <a href="#services">Services</a>
+        <a href="#estimate">Estimate</a>
         <a href="#shades">Shades</a>
         <a href="#process">Process</a>
         <a href="#about">About</a>
@@ -70,6 +71,7 @@
     </div>
     <div class="mobile" id="mobile-menu" hidden>
       <a href="#services">Services</a>
+      <a href="#estimate">Instant estimate</a>
       <a href="#shades">Shades</a>
       <a href="#process">Process</a>
       <a href="#about">About</a>
@@ -129,38 +131,109 @@
         <div class="section__head reveal">
           <p class="kicker">Automotive window tint</p>
           <h2>Built for Muskoka roads.<br><span class="muted">Every vehicle in the driveway.</span></h2>
+          <p class="section__sub">Pick your vehicle to choose your windows and shades and see a rough price right away.</p>
         </div>
         <div class="cards">
-          <article class="card reveal">
+          <article class="card reveal" data-vehicle="car">
             <div class="card__icon">
               <svg viewBox="0 0 64 32" aria-hidden="true"><path d="M4 22v-5l6-2 9-8h20l10 8 9 2v5"/><path d="M19 15h30M31 7v8"/><circle cx="15" cy="24" r="4"/><circle cx="49" cy="24" r="4"/></svg>
             </div>
             <h3>Cars &amp; coupes</h3>
             <p>From daily drivers to weekend cars. A full tint gives your car a sleek, finished look and makes it more comfortable to drive.</p>
             <ul class="ticks"><li>Sedans, hatchbacks &amp; coupes</li><li>Sports &amp; performance cars</li><li>Full or partial packages</li></ul>
+            <button type="button" class="card__cta" data-pick="car">Build my estimate <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
           </article>
-          <article class="card card--feature reveal">
+          <article class="card card--feature reveal" data-vehicle="truck">
             <div class="card__icon">
               <svg viewBox="0 0 64 32" aria-hidden="true"><path d="M3 23v-7l5-1 5-8h16v8h32v8"/><path d="M13 15h16"/><circle cx="14" cy="24" r="4"/><circle cx="50" cy="24" r="4"/></svg>
             </div>
             <h3>Trucks</h3>
             <p>Half-tons, heavy-duty and work trucks. Tint keeps the cab cooler and keeps tools and gear out of sight on the job site.</p>
             <ul class="ticks"><li>Regular, extended &amp; crew cabs</li><li>Rear slider &amp; back glass</li><li>Work and show trucks</li></ul>
+            <button type="button" class="card__cta" data-pick="truck">Build my estimate <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
           </article>
-          <article class="card reveal">
+          <article class="card reveal" data-vehicle="suv">
             <div class="card__icon">
               <svg viewBox="0 0 64 32" aria-hidden="true"><path d="M4 23v-8l6-1 5-7h36l8 7v9"/><path d="M15 14h41M33 7v7"/><circle cx="15" cy="24" r="4"/><circle cx="49" cy="24" r="4"/></svg>
             </div>
             <h3>SUVs &amp; vans</h3>
             <p>Family haulers and road-trip rigs. Keep the kids and the dog out of the sun on the way to the cottage.</p>
             <ul class="ticks"><li>Crossovers &amp; full-size SUVs</li><li>Minivans &amp; passenger vans</li><li>Rear-cargo privacy</li></ul>
+            <button type="button" class="card__cta" data-pick="suv">Build my estimate <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
           </article>
         </div>
         <div class="packages reveal">
           <div class="pkg"><span>01</span><h4>Full vehicle</h4><p>All side and rear windows, matched shade.</p></div>
           <div class="pkg"><span>02</span><h4>Front match</h4><p>Front doors done to match factory rear privacy glass.</p></div>
           <div class="pkg"><span>03</span><h4>Rear &amp; back glass</h4><p>Rear doors, quarter windows and the back window.</p></div>
-          <a class="pkg pkg--cta" href="#quote"><h4>Not sure what you need?</h4><p>Tell us your vehicle and we'll recommend a package. <b>Free quote &rarr;</b></p></a>
+          <a class="pkg pkg--cta" href="#estimate"><h4>Not sure what you need?</h4><p>Build it below and get a rough price in seconds. <b>Get an estimate &rarr;</b></p></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTIMATOR -->
+    <section class="section section--dark estimator" id="estimate" aria-labelledby="est-title">
+      <div class="wrap">
+        <div class="section__head reveal">
+          <p class="kicker">Instant estimate</p>
+          <h2 id="est-title">Build your tint.</h2>
+          <p class="section__sub">Choose your vehicle, tap the windows you want done and pick a shade for each one. You'll see a ballpark price as you go.</p>
+        </div>
+
+        <div class="est__types" role="radiogroup" aria-label="Vehicle type">
+          <button type="button" class="est__type" role="radio" aria-checked="false" data-type="car">
+            <svg viewBox="0 0 64 32" aria-hidden="true"><path d="M4 22v-5l6-2 9-8h20l10 8 9 2v5"/><path d="M19 15h30M31 7v8"/><circle cx="15" cy="24" r="4"/><circle cx="49" cy="24" r="4"/></svg>
+            <span>Car</span><small>Sedan, coupe, hatch</small>
+          </button>
+          <button type="button" class="est__type" role="radio" aria-checked="false" data-type="truck">
+            <svg viewBox="0 0 64 32" aria-hidden="true"><path d="M3 23v-7l5-1 5-8h16v8h32v8"/><path d="M13 15h16"/><circle cx="14" cy="24" r="4"/><circle cx="50" cy="24" r="4"/></svg>
+            <span>Truck</span><small>Regular, extended, crew</small>
+          </button>
+          <button type="button" class="est__type" role="radio" aria-checked="false" data-type="suv">
+            <svg viewBox="0 0 64 32" aria-hidden="true"><path d="M4 23v-8l6-1 5-7h36l8 7v9"/><path d="M15 14h41M33 7v7"/><circle cx="15" cy="24" r="4"/><circle cx="49" cy="24" r="4"/></svg>
+            <span>SUV / Van</span><small>Crossover, SUV, minivan</small>
+          </button>
+        </div>
+
+        <div class="est" id="estPanel" hidden>
+          <div class="est__visual">
+            <div class="est__stage">
+              <svg class="est__svg" id="estSvg" viewBox="0 0 600 210" role="img" aria-label="Vehicle diagram. Tap a window to add or remove it."></svg>
+              <p class="est__hint">Tap a window on the diagram or use the list.</p>
+            </div>
+            <div class="est__all">
+              <span>Set every window to</span>
+              <div class="est__allchips" role="group" aria-label="Apply one shade to all selected windows">
+                <button type="button" data-all="70">70%</button>
+                <button type="button" data-all="50">50%</button>
+                <button type="button" data-all="35">35%</button>
+                <button type="button" data-all="20">20%</button>
+                <button type="button" data-all="5">5%</button>
+              </div>
+            </div>
+            <div class="est__presets" role="group" aria-label="Quick packages">
+              <button type="button" data-preset="full">Full vehicle (sides + back)</button>
+              <button type="button" data-preset="front">Front two only</button>
+              <button type="button" data-preset="clear">Clear all</button>
+            </div>
+          </div>
+
+          <div class="est__side">
+            <ul class="est__list" id="estList" aria-label="Windows"></ul>
+            <div class="est__total" aria-live="polite">
+              <div>
+                <span class="est__label">Rough estimate</span>
+                <b class="est__price" id="estPrice">$0</b>
+                <span class="est__tax">+ HST</span>
+              </div>
+              <p class="est__note" id="estNote">Pick at least one window to see a price.</p>
+            </div>
+            <p class="fine est__fine">This is a ballpark for standard film, based on typical prices around Simcoe and Muskoka. Your final price depends on your exact year, make and model and the film you choose. Windshield and front-window shades have legal limits in Ontario, and Braedon will go over them with you.</p>
+            <div class="est__actions">
+              <a class="btn" href="tel:+17056443980"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Call for an accurate quote</a>
+              <button type="button" class="btn btn--ghost" id="estSend">Send this to Braedon</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -376,8 +449,10 @@
 
   <a class="fab" href="tel:+17056443980" aria-label="Call Muskoka Blackout Tinting">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+    <span class="fab__text"><small>Call or text</small><b>(705) 644-3980</b></span>
   </a>
 
-  <script src="assets/js/main.js?v=4" defer></script>
+  <script src="assets/js/main.js?v=5" defer></script>
+  <script src="assets/js/estimator.js?v=2" defer></script>
 </body>
 </html>
