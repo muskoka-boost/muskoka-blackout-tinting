@@ -143,7 +143,7 @@ b{font-weight:600;color:#fff}
 .shades__chips button{font:600 .85rem var(--head);letter-spacing:.06em;padding:.6rem 1rem;border-radius:999px;border:0;cursor:pointer;color:var(--silver);background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:all .2s}
 .shades__chips button:hover{color:#fff;box-shadow:inset 0 0 0 1px var(--blue-2)}
 .shades__chips button.is-active{color:#031022;background:var(--blue-2);box-shadow:0 0 24px -6px var(--blue)}
-.window{--vlt:35;position:relative;aspect-ratio:1885/991;border-radius:22px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 40px 80px -30px #000}
+.window{--vlt:35;position:relative;aspect-ratio:1800/978;border-radius:22px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 40px 80px -30px #000}
 .window img{width:100%;height:100%;object-fit:cover}
 /* film only covers the window glass via an alpha mask traced from the photo */
 .window__film{position:absolute;inset:0;pointer-events:none;
