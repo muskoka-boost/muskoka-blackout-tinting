@@ -252,7 +252,7 @@
     drawDiagram();
     drawList();
     render();
-    show3d(t);
+    if (near3d) show3d(t);
     if (scroll) section.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   }
 
@@ -260,6 +260,14 @@
     setType(b.dataset.type, false);
     panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }));
+
+  // open with the car selected; only fetch the 3D model once the section is close to the screen
+  let near3d = false;
+  setType('car', false);
+  const nearIO = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) { near3d = true; nearIO.disconnect(); show3d(type); }
+  }, { rootMargin: '600px 0px' }) : null;
+  if (nearIO) nearIO.observe(section); else { near3d = true; show3d(type); }
 
   // service cards -> estimator
   $$('.card[data-vehicle]').forEach((card) => card.addEventListener('click', (e) => {

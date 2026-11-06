@@ -252,6 +252,13 @@ address{font-style:normal;font-size:1.1rem;line-height:1.6;margin-bottom:1.5rem;
 .section__sub{color:#b9c3d3;font-size:1.05rem;margin-top:1.1rem;max-width:40rem}
 
 /* estimator */
+.est__pick{display:flex;align-items:center;gap:.7rem;margin:0 0 1rem;font:600 .82rem var(--head);letter-spacing:.16em;text-transform:uppercase;color:var(--silver)}
+.est__pick span{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-size:.9rem;letter-spacing:0;color:#031022;background:linear-gradient(135deg,var(--blue-2),var(--blue-deep));transform:skew(-8deg)}
+.est__types+.est__pick{margin-top:2rem}
+.est__type{position:relative}
+.est__type[aria-checked="true"]::after{content:"Selected";position:absolute;top:.6rem;right:.7rem;font:600 .6rem var(--head);letter-spacing:.16em;text-transform:uppercase;color:var(--blue-2)}
+.est__type[aria-checked="false"]::after{content:"Tap to switch";position:absolute;top:.6rem;right:.7rem;font:600 .6rem var(--head);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:720px){.est__type::after{display:none}}
 .est__types{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 .est__type{display:grid;justify-items:center;gap:.3rem;padding:1.6rem 1rem;border-radius:var(--radius);border:0;cursor:pointer;color:var(--text);
   background:linear-gradient(180deg,var(--panel),rgba(14,20,32,.4));box-shadow:inset 0 0 0 1px var(--line);transition:transform .3s var(--ease),box-shadow .3s,background .3s}
