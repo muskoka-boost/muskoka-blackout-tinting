@@ -232,15 +232,19 @@ export function createViewer(host, { onToggle, onReady } = {}) {
         const on = s && s.on;
         const mat = m.material;
         if (on) {
+          // darkness curve tuned so 5% reads as limo from every angle
+          const dark = (100 - s.vlt) / 95;               // 0 (70%) .. 1 (5%) roughly
           mat.color.copy(FILM);
-          mat.opacity = 0.4 + (100 - s.vlt) / 100 * 0.58;
-          mat.metalness = 0; mat.roughness = 0.2;
-          mat.envMapIntensity = 0.35 + s.vlt / 100 * 0.6;
+          mat.opacity = Math.min(0.985, 0.5 + dark * 0.5);
+          mat.metalness = 0; mat.roughness = 0.45;
+          mat.envMapIntensity = 0.08 + (1 - dark) * 0.25; // kill bright room reflections that wash tint out at grazing angles
+          mat.depthWrite = true;
         } else {
           mat.color.copy(CLEAR.color);
           mat.opacity = CLEAR.opacity;
           mat.metalness = 0.1; mat.roughness = 0.05;
           mat.envMapIntensity = 1.2;
+          mat.depthWrite = false;
         }
         mat.emissive = mat.emissive || new THREE.Color(0);
         mat.emissive.copy(m === hovered ? HOVER : new THREE.Color(0));
@@ -304,5 +308,5 @@ export function createViewer(host, { onToggle, onReady } = {}) {
     const r = canvas.getBoundingClientRect();
     return { x: r.left + (c.x + 1) / 2 * r.width, y: r.top + (1 - c.y) / 2 * r.height };
   }
-  return { load, setState, setPaint, canvas, screenPoint, stopSpin() { controls.autoRotate = false; }, resetView() { if (current) { camera.position.copy(current.camPos); controls.target.copy(current.target); controls.autoRotate = true; } } };
+  return { load, setState, setPaint, canvas, screenPoint, _cur: () => current, _cam: camera, _ctl: controls, stopSpin() { controls.autoRotate = false; }, resetView() { if (current) { camera.position.copy(current.camPos); controls.target.copy(current.target); controls.autoRotate = true; } } };
 }
