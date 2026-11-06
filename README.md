@@ -15,5 +15,6 @@ Static one-page site with a PHP quote form for Muskoka Blackout Tinting (Braedon
 Requires PHP 7.4+ with `mail()` enabled (cPanel default).
 
 ## Photo credits
+- 3D vehicles (estimator): based on "Generic passenger car pack" (https://sketchfab.com/3d-models/generic-passenger-car-pack-20f9af9b8a404d5cb022ac6fe87f21f5) by Comrade1280 (https://sketchfab.com/comrade1280), licensed under CC BY 4.0 (http://creativecommons.org/licenses/by/4.0/). Split into sedan/pickup/SUV, recoloured and compressed (meshopt + WebP). Credit is shown in the site footer and must stay.
 - Owner photos, logo, flyers and the Ford F-150 shade-preview photo: supplied by Muskoka Blackout Tinting.
 - Tint installation photos: Pexels (photo 31154212), free under the Pexels License.

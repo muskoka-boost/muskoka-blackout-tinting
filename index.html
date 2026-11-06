@@ -15,7 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=9">
+  <link rel="stylesheet" href="assets/css/styles.css?v=10">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -198,8 +199,18 @@
         <div class="est" id="estPanel" hidden>
           <div class="est__visual">
             <div class="est__stage">
+              <div class="est__3d" id="est3d"><div class="est__loading"><span></span>Loading 3D model…</div></div>
               <svg class="est__svg" id="estSvg" viewBox="0 0 600 210" role="img" aria-label="Vehicle diagram. Tap a window to add or remove it."></svg>
-              <p class="est__hint">Tap a window on the diagram or use the list.</p>
+              <p class="est__hint" id="estHint">Tap a window on the diagram or use the list.</p>
+            </div>
+            <div class="est__paint" role="group" aria-label="Preview paint colour">
+              <span>Paint</span>
+              <button type="button" data-paint="#e9edf2" style="--c:#e9edf2" aria-label="White" class="is-active"></button>
+              <button type="button" data-paint="#9aa3ad" style="--c:#9aa3ad" aria-label="Silver"></button>
+              <button type="button" data-paint="#2a2f36" style="--c:#2a2f36" aria-label="Charcoal"></button>
+              <button type="button" data-paint="#0c0d10" style="--c:#0c0d10" aria-label="Black"></button>
+              <button type="button" data-paint="#a3121e" style="--c:#a3121e" aria-label="Red"></button>
+              <button type="button" data-paint="#1d4f9c" style="--c:#1d4f9c" aria-label="Blue"></button>
             </div>
             <div class="est__all">
               <span>Set every window to</span>
@@ -443,6 +454,7 @@
     </div>
     <div class="wrap footer__base">
       <span>&copy; <span id="year">2026</span> Muskoka Blackout Tinting. All rights reserved.</span>
+      <span class="footer__credit">3D vehicles based on <a href="https://sketchfab.com/3d-models/generic-passenger-car-pack-20f9af9b8a404d5cb022ac6fe87f21f5" target="_blank" rel="noopener">"Generic passenger car pack"</a> by <a href="https://sketchfab.com/comrade1280" target="_blank" rel="noopener">Comrade1280</a>, <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</span>
       <a href="#top">Back to top &uarr;</a>
     </div>
   </footer>
@@ -453,6 +465,6 @@
   </a>
 
   <script src="assets/js/main.js?v=5" defer></script>
-  <script src="assets/js/estimator.js?v=2" defer></script>
+  <script src="assets/js/estimator.js?v=4" defer></script>
 </body>
 </html>

@@ -103,6 +103,44 @@
   let type = null;
   let state = {}; // id -> { on, vlt }
 
+  // ---- optional 3D viewer (falls back to the SVG diagram) ----
+  const host3d = $('#est3d');
+  const stage = $('.est__stage', section);
+  const hint = $('#estHint');
+  let viewer = null, viewerPromise = null, paint = '#e9edf2';
+  const webgl = (() => { try { const c = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl'))); } catch (e) { return false; } })();
+  function ensureViewer() {
+    if (!webgl || !host3d || !HTMLScriptElement.supports || !HTMLScriptElement.supports('importmap')) return Promise.reject(new Error('no 3d'));
+    if (!viewerPromise) {
+      viewerPromise = import('./vehicle3d.js?v=2').then((mod) => {
+        viewer = mod.createViewer(host3d, { onToggle: (id) => { if (state[id]) toggle(id); } });
+        window.__mbtViewer = viewer;
+        viewer.setPaint(paint);
+        return viewer;
+      });
+    }
+    return viewerPromise;
+  }
+  function show3d(t) {
+    stage.classList.add('is-loading');
+    ensureViewer().then((v) => v.load(t)).then(() => {
+      if (t !== type) return;
+      stage.classList.remove('is-loading');
+      stage.classList.add('is-3d');
+      hint.textContent = 'Drag to spin the vehicle. Tap a window to tint it.';
+      viewer.setState(state);
+    }).catch((err) => {
+      console.warn('3D viewer unavailable, using diagram', err);
+      stage.classList.remove('is-loading', 'is-3d');
+      hint.textContent = 'Tap a window on the diagram or use the list.';
+    });
+  }
+  $$('[data-paint]', section).forEach((b) => b.addEventListener('click', () => {
+    paint = b.dataset.paint;
+    $$('[data-paint]', section).forEach((x) => x.classList.toggle('is-active', x === b));
+    if (viewer) viewer.setPaint(paint);
+  }));
+
   function el(tag, attrs = {}, parent) {
     const n = document.createElementNS(NS, tag);
     for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
@@ -189,6 +227,7 @@
         if (w.body) { bodyCount++; bodyLo += w.lo; bodyHi += w.hi; }
       }
     });
+    if (viewer) viewer.setState(state);
     let discount = false;
     if (bodyCount >= BUNDLE_MIN) {
       lo -= bodyLo * BUNDLE_OFF; hi -= bodyHi * BUNDLE_OFF; discount = true;
@@ -213,6 +252,7 @@
     drawDiagram();
     drawList();
     render();
+    show3d(t);
     if (scroll) section.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   }
 
