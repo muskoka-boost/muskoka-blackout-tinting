@@ -1,43 +1,41 @@
-/* Muskoka Blackout Tinting: instant tint estimator
- * Prices are rough CAD ranges for standard film (before HST), set slightly
- * under typical Simcoe/Muskoka shop pricing. Edit PRICING to adjust.
+/* Muskoka Blackout Tinting: tint builder
+ * Visitors pick a vehicle, windows, shades and Scorpion film, then send the
+ * build to Braedon (contact.php). No prices are shown.
  */
 (() => {
   const SHADES = [70, 50, 35, 20, 5];
-  const BUNDLE_MIN = 3;        // this many side/back windows (or more) get the package discount
-  const BUNDLE_OFF = 0.15;     // 15% off for packages
 
   // body = counts toward package discount
   const PRICING = {
     car: {
       label: 'Car',
       windows: [
-        { id: 'front', name: 'Front doors (pair)', note: 'Driver & passenger', lo: 130, hi: 160, body: true, def: 35 },
-        { id: 'rear',  name: 'Rear doors (pair)',  note: 'Back seat windows',  lo: 100, hi: 120, body: true, def: 20 },
-        { id: 'back',  name: 'Rear windshield',    note: 'Back glass',          lo: 80,  hi: 100, body: true, def: 20 },
-        { id: 'wind',  name: 'Front windshield',   note: 'Clear/light film',    lo: 150, hi: 200, def: 70 },
-        { id: 'strip', name: 'Windshield brow strip', note: 'Top sun strip',    lo: 40,  hi: 50,  def: 5 }
+        { id: 'front', name: 'Front doors (pair)', note: 'Driver & passenger', body: true, def: 35 },
+        { id: 'rear',  name: 'Rear doors (pair)',  note: 'Back seat windows', body: true, def: 20 },
+        { id: 'back',  name: 'Rear windshield',    note: 'Back glass', body: true, def: 20 },
+        { id: 'wind',  name: 'Front windshield',   note: 'Clear/light film', def: 70 },
+        { id: 'strip', name: 'Windshield brow strip', note: 'Top sun strip',  def: 5 }
       ]
     },
     truck: {
       label: 'Truck',
       windows: [
-        { id: 'front', name: 'Front doors (pair)', note: 'Driver & passenger', lo: 130, hi: 160, body: true, def: 35 },
-        { id: 'rear',  name: 'Rear doors (pair)',  note: 'Extended / crew cab', lo: 90,  hi: 120, body: true, def: 20 },
-        { id: 'back',  name: 'Back glass / slider', note: 'Rear cab window',    lo: 70,  hi: 90,  body: true, def: 20 },
-        { id: 'wind',  name: 'Front windshield',   note: 'Clear/light film',    lo: 160, hi: 210, def: 70 },
-        { id: 'strip', name: 'Windshield brow strip', note: 'Top sun strip',    lo: 40,  hi: 50,  def: 5 }
+        { id: 'front', name: 'Front doors (pair)', note: 'Driver & passenger', body: true, def: 35 },
+        { id: 'rear',  name: 'Rear doors (pair)',  note: 'Extended / crew cab', body: true, def: 20 },
+        { id: 'back',  name: 'Back glass / slider', note: 'Rear cab window',  body: true, def: 20 },
+        { id: 'wind',  name: 'Front windshield',   note: 'Clear/light film', def: 70 },
+        { id: 'strip', name: 'Windshield brow strip', note: 'Top sun strip',  def: 5 }
       ]
     },
     suv: {
       label: 'SUV / Van',
       windows: [
-        { id: 'front',   name: 'Front doors (pair)',   note: 'Driver & passenger', lo: 130, hi: 160, body: true, def: 35 },
-        { id: 'rear',    name: 'Rear doors (pair)',    note: 'Second row',         lo: 100, hi: 130, body: true, def: 20 },
-        { id: 'quarter', name: 'Rear quarter windows', note: 'Cargo area sides',   lo: 60,  hi: 80,  body: true, def: 20 },
-        { id: 'back',    name: 'Rear hatch glass',     note: 'Liftgate / back doors', lo: 90, hi: 110, body: true, def: 20 },
-        { id: 'wind',    name: 'Front windshield',     note: 'Clear/light film',   lo: 170, hi: 220, def: 70 },
-        { id: 'strip',   name: 'Windshield brow strip', note: 'Top sun strip',     lo: 45,  hi: 55,  def: 5 }
+        { id: 'front',   name: 'Front doors (pair)',   note: 'Driver & passenger', body: true, def: 35 },
+        { id: 'rear',    name: 'Rear doors (pair)',    note: 'Second row', body: true, def: 20 },
+        { id: 'quarter', name: 'Rear quarter windows', note: 'Cargo area sides',  body: true, def: 20 },
+        { id: 'back',    name: 'Rear hatch glass',     note: 'Liftgate / back doors', body: true, def: 20 },
+        { id: 'wind',    name: 'Front windshield',     note: 'Clear/light film', def: 70 },
+        { id: 'strip',   name: 'Windshield brow strip', note: 'Top sun strip',  def: 5 }
       ]
     }
   };
@@ -93,12 +91,12 @@
   const panel = $('#estPanel');
   const svg = $('#estSvg');
   const list = $('#estList');
-  const priceEl = $('#estPrice');
   const noteEl = $('#estNote');
+  const sumTitle = $('#estSumTitle');
+  const estForm = $('#estForm');
+  let film = 'Scorpion Carbon';
   const NS = 'http://www.w3.org/2000/svg';
   const shadeName = (v) => v <= 10 ? 'Limo' : v <= 25 ? 'Dark' : v <= 40 ? 'Medium' : v <= 55 ? 'Light' : 'Very light';
-  const round5 = (n) => Math.round(n / 5) * 5;
-  const money = (n) => '$' + n.toLocaleString('en-CA');
 
   let type = null;
   let state = {}; // id -> { on, vlt }
@@ -194,7 +192,7 @@
       const cid = 'est-' + w.id;
       li.innerHTML =
         `<input type="checkbox" class="est__check" id="${cid}">` +
-        `<label class="est__name" for="${cid}"><b>${w.name}</b><small>${w.note} · ${money(w.lo)}–${money(w.hi)}</small></label>` +
+        `<label class="est__name" for="${cid}"><b>${w.name}</b><small>${w.note}</small></label>` +
         `<select class="est__shade" aria-label="Shade for ${w.name}">${SHADES.map(s => `<option value="${s}">${s}% ${shadeName(s)}</option>`).join('')}</select>`;
       $('input', li).addEventListener('change', (e) => { state[w.id].on = e.target.checked; render(); });
       $('select', li).addEventListener('change', (e) => { state[w.id].vlt = Number(e.target.value); state[w.id].on = true; render(); });
@@ -206,7 +204,7 @@
 
   function render() {
     const cfg = PRICING[type].windows;
-    let lo = 0, hi = 0, bodyCount = 0, bodyLo = 0, bodyHi = 0, count = 0;
+    let count = 0;
     cfg.forEach((w) => {
       const s = state[w.id];
       const row = $(`.est__row[data-id="${w.id}"]`, list);
@@ -221,26 +219,13 @@
         pane.setAttribute('aria-pressed', String(s.on));
         pane.style.fillOpacity = s.on ? (0.18 + (100 - s.vlt) / 100 * 0.8).toFixed(2) : '0';
       }
-      if (s.on) {
-        count++;
-        lo += w.lo; hi += w.hi;
-        if (w.body) { bodyCount++; bodyLo += w.lo; bodyHi += w.hi; }
-      }
+      if (s.on) count++;
     });
     if (viewer) viewer.setState(state);
-    let discount = false;
-    if (bodyCount >= BUNDLE_MIN) {
-      lo -= bodyLo * BUNDLE_OFF; hi -= bodyHi * BUNDLE_OFF; discount = true;
-    }
-    if (!count) {
-      priceEl.textContent = '$0';
-      noteEl.textContent = 'Pick at least one window to see a price.';
-    } else {
-      priceEl.textContent = `${money(round5(lo))} – ${money(round5(hi))}`;
-      noteEl.textContent = discount
-        ? `${count} item${count > 1 ? 's' : ''} selected. Package savings applied.`
-        : `${count} item${count > 1 ? 's' : ''} selected. Add ${BUNDLE_MIN - bodyCount} more side or back window${BUNDLE_MIN - bodyCount > 1 ? 's' : ''} for package savings.`;
-    }
+    sumTitle.textContent = `${PRICING[type].label} · ${film}`;
+    noteEl.textContent = count
+      ? cfg.filter((w) => state[w.id].on).map((w) => `${w.name} ${state[w.id].vlt}%`).join(' · ')
+      : 'Pick at least one window.';
   }
 
   function setType(t, scroll) {
@@ -288,25 +273,64 @@
     render();
   }));
 
-  // send selection to the quote form
-  $('#estSend').addEventListener('click', () => {
+  // film choice
+  $$('[data-film]', section).forEach((b) => b.addEventListener('click', () => {
+    film = b.dataset.film;
+    $$('[data-film]', section).forEach((x) => { x.classList.toggle('is-active', x === b); x.setAttribute('aria-checked', String(x === b)); });
+    render();
+  }));
+
+  // send the build to Braedon
+  const status = $('.est__status', estForm);
+  const submitBtn = $('#estSubmit');
+  const say = (msg, kind) => { status.textContent = msg; status.className = 'form__status est__status ' + (kind || ''); };
+  const isStaging = /github\.io$/.test(location.hostname) || location.protocol === 'file:';
+  $('.js-ts', estForm).value = String(Math.floor(Date.now() / 1000));
+  $$('[required]', estForm).forEach((f) => f.addEventListener('input', () => f.classList.remove('is-invalid')));
+
+  estForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
     const cfg = PRICING[type].windows.filter((w) => state[w.id].on);
-    const form = $('#quoteForm');
-    if (!form) return;
-    const lines = cfg.map((w) => `- ${w.name}: ${state[w.id].vlt}% (${shadeName(state[w.id].vlt)})`);
-    const summary = `Estimate builder (${PRICING[type].label}):\n${lines.length ? lines.join('\n') : '- No windows picked yet'}\nRough estimate shown: ${priceEl.textContent} + HST`;
-    const msg = form.elements.message;
-    msg.value = summary + (msg.value && !msg.value.startsWith('Estimate builder') ? '\n\n' + msg.value : '');
-    const service = form.elements.service;
+    if (!cfg.length) { say('Pick at least one window to tint first.', 'err'); return; }
+    let ok = true;
+    $$('[required]', estForm).forEach((f) => {
+      const bad = !f.value.trim() || (f.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value.trim()));
+      f.classList.toggle('is-invalid', bad);
+      if (bad) ok = false;
+    });
+    if (!ok) { say('Please add your name, a valid email and your vehicle.', 'err'); $('.is-invalid', estForm).focus(); return; }
+
     const ids = cfg.map((w) => w.id);
     const bodyAll = PRICING[type].windows.filter((w) => w.body).every((w) => state[w.id].on);
-    const onlyRearSet = ids.length && ids.every((i) => ['rear', 'back', 'quarter'].includes(i));
-    service.value = bodyAll ? 'Full vehicle tint'
-      : (ids.length === 1 && ids[0] === 'front') ? 'Front windows (match rear)'
-      : onlyRearSet ? 'Rear & back glass'
-      : 'Not sure yet, need advice';
-    if (!form.elements.vehicle.value) form.elements.vehicle.placeholder = `Your ${PRICING[type].label.toLowerCase()}'s year, make & model`;
-    $('#quote').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setTimeout(() => form.elements.name.value ? form.elements.vehicle.focus({ preventScroll: true }) : form.elements.name.focus({ preventScroll: true }), 700);
+    const onlyRearSet = ids.every((i) => ['rear', 'back', 'quarter'].includes(i));
+    const service = bodyAll ? 'Full vehicle tint' : (ids.length === 1 && ids[0] === 'front') ? 'Front windows (match rear)' : onlyRearSet ? 'Rear & back glass' : 'Custom selection';
+    const lines = cfg.map((w) => `- ${w.name}: ${state[w.id].vlt}% (${shadeName(state[w.id].vlt)})`);
+    const notes = estForm.elements.notes.value.trim();
+    estForm.elements.film.value = film;
+    estForm.elements.service.value = service;
+    estForm.elements.message.value =
+      `Tint builder request\nVehicle type: ${PRICING[type].label}\nFilm: ${film}\nWindows:\n${lines.join('\n')}` +
+      (notes ? `\n\nCustomer notes:\n${notes}` : '');
+
+    if (isStaging) { say('This is the preview site, so it can\'t send yet. Please call (705) 644-3980.', 'err'); return; }
+
+    submitBtn.disabled = true; $('span', submitBtn).textContent = 'Sending…'; say('');
+    try {
+      const fd = new FormData(estForm);
+      fd.delete('notes');
+      const res = await fetch(estForm.action, { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
+        say('Thanks! Your build was sent. Braedon will get back to you with a quote soon.', 'ok');
+        ['name', 'phone', 'email', 'vehicle', 'notes'].forEach((n) => { estForm.elements[n].value = ''; });
+        $('.js-ts', estForm).value = String(Math.floor(Date.now() / 1000));
+      } else {
+        say(data.error || 'Something went wrong. Please call (705) 644-3980.', 'err');
+      }
+    } catch (err) {
+      say('Couldn\'t send right now. Please call (705) 644-3980.', 'err');
+    } finally {
+      submitBtn.disabled = false; $('span', submitBtn).textContent = 'Get my quote';
+    }
   });
 })();

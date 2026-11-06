@@ -271,8 +271,8 @@ address{font-style:normal;font-size:1.1rem;line-height:1.6;margin-bottom:1.5rem;
 .est{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(1.5rem,4vw,3rem);margin-top:1.5rem;padding:clamp(1.2rem,3vw,2.2rem);border-radius:24px;
   background:linear-gradient(180deg,rgba(20,28,44,.75),rgba(8,11,18,.9));box-shadow:inset 0 0 0 1px rgba(108,198,255,.2);animation:estIn .5s var(--ease)}
 .est[hidden]{display:none}
-.est__visual,.est__side{display:contents}
-.est{grid-template-areas:"stage list" "paint list" "all list" "presets list" "total fine" "actions fine";grid-template-rows:auto auto auto auto auto 1fr;align-items:start;row-gap:0}
+.est__visual,.est__side{display:flex;flex-direction:column;min-width:0}
+.est{align-items:start}
 .est__stage{grid-area:stage}.est__all{grid-area:all}.est__presets{grid-area:presets}.est__list{grid-area:list}
 .est__total{grid-area:total}.est__actions{grid-area:actions}.est__fine{grid-area:fine;margin:1.4rem 0 0}
 .est__actions .btn{letter-spacing:.05em;font-size:.86rem;white-space:nowrap;padding:0 1.2rem}
@@ -362,7 +362,7 @@ address{font-style:normal;font-size:1.1rem;line-height:1.6;margin-bottom:1.5rem;
   .cards{grid-template-columns:1fr}
   .packages{grid-template-columns:1fr 1fr}
   .shades,.process,.about,.faq,.visit,.quote__inner,.est{grid-template-columns:1fr}
-  .est{grid-template-areas:"stage" "paint" "all" "presets" "list" "total" "actions" "fine";grid-template-rows:none}
+
   .est__list{margin-top:1.2rem}
   .process__img{aspect-ratio:16/10}
   .about__img{max-width:460px}
@@ -403,4 +403,35 @@ address{font-style:normal;font-size:1.1rem;line-height:1.6;margin-bottom:1.5rem;
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .reveal{opacity:1;transform:none}
+}
+
+/* film picker + quote request (tint builder) */
+.est__film{grid-area:film;display:grid;grid-template-columns:auto 1fr 1fr;gap:.6rem;align-items:stretch;margin-top:1.2rem}
+.est__filmlabel{align-self:center;font:600 .74rem var(--head);letter-spacing:.16em;text-transform:uppercase;color:var(--silver);margin-right:.3rem}
+.est__filmopt{display:grid;gap:.3rem;text-align:left;padding:.85rem 1rem;border:0;border-radius:14px;cursor:pointer;color:var(--text);background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:box-shadow .2s,background .2s}
+.est__filmopt b{font:700 1rem var(--head);font-style:italic;text-transform:uppercase;letter-spacing:.03em}
+.est__filmopt small{font-size:.76rem;line-height:1.4;color:var(--muted)}
+.est__filmopt:hover{box-shadow:inset 0 0 0 1px var(--blue-2)}
+.est__filmopt.is-active{background:linear-gradient(135deg,rgba(47,164,255,.2),rgba(11,95,214,.08));box-shadow:inset 0 0 0 2px var(--blue)}
+.est__filmopt.is-active b{color:var(--blue-2)}
+.est__request{grid-area:request;margin-top:1.4rem;padding:1.2rem 1.3rem;border-radius:16px;background:linear-gradient(135deg,rgba(47,164,255,.14),rgba(11,95,214,.05));box-shadow:inset 0 0 0 1px rgba(108,198,255,.35)}
+.est__summary{margin-bottom:1rem}
+.est__sumtitle{display:block;font:700 1.35rem/1.2 var(--head);font-style:italic;text-transform:uppercase;color:#fff;margin:.2rem 0 .3rem}
+.est__summary .est__note{max-width:none}
+.est__fields{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.est__wide{grid-column:1/-1}
+.est__fields label{display:grid;gap:.35rem;font:600 .7rem var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--silver)}
+.est__fields label .muted{letter-spacing:.04em;text-transform:none}
+.est__fields input,.est__fields textarea{width:100%;font:400 .98rem var(--body);color:var(--text);background:rgba(5,7,12,.75);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:.7rem .85rem;letter-spacing:0;text-transform:none}
+.est__fields textarea{resize:vertical;min-height:64px}
+.est__fields input:focus,.est__fields textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(47,164,255,.18)}
+.est__fields .is-invalid{border-color:#ff5c7a;box-shadow:0 0 0 4px rgba(255,92,122,.14)}
+.est__request .est__actions{margin-top:1rem}
+.est__status{margin-top:.6rem}
+.form__row--3{grid-template-columns:1.35fr 1fr 1fr}
+@media (max-width:720px){
+  .est__film{grid-template-columns:1fr 1fr}
+  .est__filmlabel{grid-column:1/-1}
+  .est__fields{grid-template-columns:1fr}
+  .form__row--3{grid-template-columns:1fr}
 }

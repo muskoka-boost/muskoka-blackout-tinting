@@ -68,13 +68,15 @@ $email   = $oneLine($clean('email', 150));
 $vehicle = $oneLine($clean('vehicle', 120));
 $service = $oneLine($clean('service', 80));
 $shade   = $oneLine($clean('shade', 80));
-$message = $clean('message', 2000);
+$film    = $oneLine($clean('film', 80));
+$source  = $oneLine($clean('source', 40));
+$message = $clean('message', 3000);
 
 if ($name === '' || $vehicle === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Please fill in your name, a valid email and your vehicle.', 422);
 }
 
-$subject = sprintf('%s: %s (%s)', $cfg['SUBJECT_PREFIX'], $name, $vehicle);
+$subject = sprintf('%s%s: %s (%s)', $cfg['SUBJECT_PREFIX'], $source !== '' ? ' via ' . $source : '', $name, $vehicle);
 $body = implode("\n", [
     'New quote request from muskokablackouttinting website',
     str_repeat('-', 48),
@@ -84,6 +86,7 @@ $body = implode("\n", [
     'Vehicle:  ' . $vehicle,
     'Service:  ' . $service,
     'Shade:    ' . $shade,
+    'Film:     ' . ($film ?: 'not chosen'),
     '',
     'Message:',
     $message !== '' ? $message : '(none)',
