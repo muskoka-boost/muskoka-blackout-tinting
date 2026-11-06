@@ -16,7 +16,7 @@ const SIDE_MAP = {
 };
 
 // which end of the long axis is the front (+1 = +axis), checked visually per model
-const FRONT = { car: 1, truck: 1, suv: 1 };
+const FRONT = { car: 1, truck: 1, suv: -1 };
 
 const CLEAR = { color: new THREE.Color('#cfe4f5'), opacity: 0.2 };
 const FILM = new THREE.Color('#04060b');
