@@ -19,7 +19,14 @@ const SIDE_MAP = {
 const FRONT = { car: 1, truck: 1, suv: -1 };
 
 const CLEAR = { color: new THREE.Color('#cfe4f5'), opacity: 0.2 };
-const FILM = new THREE.Color('#04060b');
+// Look of each Scorpion film on the 3D glass, based on Scorpion's descriptions + installer photos:
+// Carbon Series: matte, non-reflective, charcoal with a faint warm grey-brown hue, slightly softer/greyer at the same VLT.
+// Shield Plus Nano-Ceramic IR: "rich black colour rather than brown or bluish", glossy glass sheen, reads darker from outside.
+const FILMS = {
+  carbon:  { color: new THREE.Color('#141210'), rough: 0.75, env: 0.03, envLight: 0.1,  metal: 0,    density: 0.97 },
+  ceramic: { color: new THREE.Color('#010203'), rough: 0.04, env: 0.4,  envLight: 0.5,  metal: 0.15, density: 1.0 }
+};
+let filmStyle = FILMS.carbon;
 const HOVER = new THREE.Color('#2fa4ff');
 
 export function createViewer(host, { onToggle, onReady } = {}) {
@@ -234,10 +241,11 @@ export function createViewer(host, { onToggle, onReady } = {}) {
         if (on) {
           // darkness curve tuned so 5% reads as limo from every angle
           const dark = (100 - s.vlt) / 95;               // 0 (70%) .. 1 (5%) roughly
-          mat.color.copy(FILM);
-          mat.opacity = Math.min(0.985, 0.5 + dark * 0.5);
-          mat.metalness = 0; mat.roughness = 0.45;
-          mat.envMapIntensity = 0.08 + (1 - dark) * 0.25; // kill bright room reflections that wash tint out at grazing angles
+          const f = filmStyle;
+          mat.color.copy(f.color);
+          mat.opacity = Math.min(0.985, (0.5 + dark * 0.5) * f.density);
+          mat.metalness = f.metal; mat.roughness = f.rough;
+          mat.envMapIntensity = f.env + (1 - dark) * f.envLight; // low reflection so tint never washes out at grazing angles
           mat.depthWrite = true;
         } else {
           mat.color.copy(CLEAR.color);
@@ -254,6 +262,7 @@ export function createViewer(host, { onToggle, onReady } = {}) {
   }
 
   function setState(next) { state = next; apply(); }
+  function setFilm(name) { filmStyle = /ceramic/i.test(name || '') ? FILMS.ceramic : FILMS.carbon; apply(); }
   function setPaint(hex) { paintHex = hex; if (current) current.paint.forEach((m) => m.userData.uPaint.value.set(hex)); }
 
   // picking
@@ -308,5 +317,5 @@ export function createViewer(host, { onToggle, onReady } = {}) {
     const r = canvas.getBoundingClientRect();
     return { x: r.left + (c.x + 1) / 2 * r.width, y: r.top + (1 - c.y) / 2 * r.height };
   }
-  return { load, setState, setPaint, canvas, screenPoint, _cur: () => current, _cam: camera, _ctl: controls, stopSpin() { controls.autoRotate = false; }, resetView() { if (current) { camera.position.copy(current.camPos); controls.target.copy(current.target); controls.autoRotate = true; } } };
+  return { load, setState, setPaint, setFilm, canvas, screenPoint, _cur: () => current, _cam: camera, _ctl: controls, stopSpin() { controls.autoRotate = false; }, resetView() { if (current) { camera.position.copy(current.camPos); controls.target.copy(current.target); controls.autoRotate = true; } } };
 }

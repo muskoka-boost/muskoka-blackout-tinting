@@ -110,10 +110,11 @@
   function ensureViewer() {
     if (!webgl || !host3d || !HTMLScriptElement.supports || !HTMLScriptElement.supports('importmap')) return Promise.reject(new Error('no 3d'));
     if (!viewerPromise) {
-      viewerPromise = import('./vehicle3d.js?v=4').then((mod) => {
+      viewerPromise = import('./vehicle3d.js?v=6').then((mod) => {
         viewer = mod.createViewer(host3d, { onToggle: (id) => { if (state[id]) toggle(id); } });
         window.__mbtViewer = viewer;
         viewer.setPaint(paint);
+        viewer.setFilm(film);
         return viewer;
       });
     }
@@ -277,6 +278,8 @@
   $$('[data-film]', section).forEach((b) => b.addEventListener('click', () => {
     film = b.dataset.film;
     $$('[data-film]', section).forEach((x) => { x.classList.toggle('is-active', x === b); x.setAttribute('aria-checked', String(x === b)); });
+    if (viewer) viewer.setFilm(film);
+    svg.classList.toggle('is-ceramic', /ceramic/i.test(film));
     render();
   }));
 

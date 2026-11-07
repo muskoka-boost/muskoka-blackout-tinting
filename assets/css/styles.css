@@ -435,3 +435,6 @@ address{font-style:normal;font-size:1.1rem;line-height:1.6;margin-bottom:1.5rem;
   .est__fields{grid-template-columns:1fr}
   .form__row--3{grid-template-columns:1fr}
 }
+
+.est__svg .pane{fill:#1a1714}
+.est__svg.is-ceramic .pane{fill:#020304}
