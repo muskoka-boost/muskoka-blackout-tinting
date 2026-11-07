@@ -439,27 +439,28 @@ address{font-style:normal;font-size:1.1rem;line-height:1.6;margin-bottom:1.5rem;
 .est__svg .pane{fill:#1a1714}
 .est__svg.is-ceramic .pane{fill:#020304}
 
-/* ---- hero v2: full truck + storefront, no cropping ---- */
-.hero{min-height:0;display:block;padding-top:76px;align-items:initial}
-.hero__content{display:grid;grid-template-columns:1.15fr 1fr;grid-template-areas:"eyebrow eyebrow" "title side";gap:1rem 3rem;align-items:end;padding:2.2rem 0 1.4rem;align-self:auto}
-.hero__content .eyebrow{grid-area:eyebrow;justify-self:start}
-.hero__title{grid-area:title;margin:0;font-size:clamp(3rem,min(7.4vw,10svh),6.6rem)}
-.hero__side{grid-area:side;padding-bottom:.4rem}
-.hero__side .hero__lead{margin-bottom:0}
-@media (max-width:1020px){.hero__media{width:100%!important}}
-.hero__media{position:relative;inset:auto;z-index:0;margin:0 auto;width:min(100%,1680px,calc((100svh - 400px) * 2.07));min-width:min(100%,760px)}
-.hero__media img{width:100%;height:auto;aspect-ratio:1056/510;object-fit:cover;object-position:50% 50%;transform:none;animation:heroFade 1.4s var(--ease) both;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
-.hero__media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,var(--bg) 0%,rgba(5,7,12,0) 16%,rgba(5,7,12,0) 80%,var(--bg) 100%)}
-@keyframes heroFade{from{opacity:0;transform:scale(1.02)}to{opacity:1;transform:none}}
+/* ---- hero v3: full truck + storefront photo behind the text ---- */
+.hero{position:relative;display:grid;align-items:center;min-height:0;padding-top:76px;overflow:hidden;isolation:isolate;
+  height:max(600px,min(100svh,calc(100vw * 510 / 1056 + 76px)))}
+.hero__media{position:absolute;inset:76px 0 0;z-index:-2;margin:0}
+.hero__media img{width:100%;height:100%;object-fit:cover;object-position:50% 55%;transform:none;-webkit-mask-image:none;mask-image:none;animation:heroFade 1.4s var(--ease) both}
+.hero__media::after{content:none}
+.hero__shade{position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(90deg,rgba(5,7,12,.92) 0%,rgba(5,7,12,.72) 32%,rgba(5,7,12,.25) 62%,rgba(5,7,12,.05) 100%),
+  linear-gradient(0deg,var(--bg) 0%,rgba(5,7,12,0) 22%),
+  linear-gradient(180deg,var(--bg) 76px,rgba(5,7,12,.35) 20%,rgba(5,7,12,0) 40%)}
+.hero__content{display:block;padding:2rem 0 4.5rem}
+.hero__title{margin:1.2rem 0;font-size:clamp(3rem,min(8vw,11svh),7.2rem)}
+.hero__lead{max-width:30rem;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+@keyframes heroFade{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:none}}
 .benefits{margin-top:-2.5rem}
-@media (max-width:1020px){
-  .hero__content{grid-template-columns:1fr;grid-template-areas:"eyebrow" "title" "side";padding:2.4rem 0 1.6rem}
-  .hero__media img{-webkit-mask-image:none;mask-image:none}
-}
 @media (max-width:720px){
-  .hero__content{padding:1.8rem 0 1.2rem;align-self:auto}
-  .hero__media img{object-position:50% 50%}
+  .hero{height:auto;min-height:0;align-items:end}
+  .hero__media{inset:auto 0 0;top:auto;height:auto}
+  .hero__media img{height:auto;aspect-ratio:1056/510}
+  .hero__media{bottom:8px}
+  .hero__shade{background:linear-gradient(180deg,var(--bg) 0%,rgba(5,7,12,.9) 52%,rgba(5,7,12,.3) 68%,rgba(5,7,12,0) 80%),linear-gradient(0deg,var(--bg) 0%,rgba(5,7,12,0) 8%)}
+  .hero__content{padding:2rem 0 calc(100vw * 510 / 1056 * .82)}
   .benefits{margin-top:.5rem}
 }
 
