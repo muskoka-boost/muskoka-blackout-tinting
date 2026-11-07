@@ -56,6 +56,14 @@
     setVlt(range.value);
   }
 
+  // home / storefront cards preselect the quote form service
+  $$('[data-service]').forEach((a) => a.addEventListener('click', () => {
+    const sel = document.querySelector('#quoteForm select[name="service"]');
+    if (sel) sel.value = a.dataset.service;
+    const veh = document.querySelector('#quoteForm input[name="vehicle"]');
+    if (veh && !veh.value) veh.placeholder = a.dataset.service.startsWith('Residential') ? 'e.g. 4 living room windows, about 3 x 5 ft' : 'e.g. 2 storefront windows + glass door';
+  }));
+
   // footer year
   $('#year').textContent = new Date().getFullYear();
 
@@ -77,7 +85,7 @@
       f.classList.toggle('is-invalid', bad);
       if (bad) ok = false;
     });
-    if (!ok) { say('Please fill in your name, a valid email and your vehicle.', 'err'); $('.is-invalid', form).focus(); return; }
+    if (!ok) { say('Please fill in your name, a valid email and your vehicle or property.', 'err'); $('.is-invalid', form).focus(); return; }
 
     if (isStaging) {
       say('This is the preview site, so the form can\'t send yet. Please call (705) 644-3980 or email ' + EMAIL + '.', 'err');

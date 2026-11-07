@@ -73,7 +73,7 @@ $source  = $oneLine($clean('source', 40));
 $message = $clean('message', 3000);
 
 if ($name === '' || $vehicle === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    respond(false, 'Please fill in your name, a valid email and your vehicle.', 422);
+    respond(false, 'Please fill in your name, a valid email and your vehicle or property.', 422);
 }
 
 $subject = sprintf('%s%s: %s (%s)', $cfg['SUBJECT_PREFIX'], $source !== '' ? ' via ' . $source : '', $name, $vehicle);
@@ -83,7 +83,7 @@ $body = implode("\n", [
     'Name:     ' . $name,
     'Phone:    ' . ($phone ?: 'not given'),
     'Email:    ' . $email,
-    'Vehicle:  ' . $vehicle,
+    'Vehicle/property: ' . $vehicle,
     'Service:  ' . $service,
     'Shade:    ' . $shade,
     'Film:     ' . ($film ?: 'not chosen'),
