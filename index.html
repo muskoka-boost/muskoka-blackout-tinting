@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=21">
+  <link rel="stylesheet" href="assets/css/styles.css?v=23">
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
   <script type="application/ld+json">
   {
@@ -88,7 +88,10 @@
     <!-- HERO -->
     <section class="hero">
       <figure class="hero__media">
-        <img src="assets/img/hero-truck.jpg" alt="Braedon's blacked-out Ram 2500 with tinted windows, parked in front of a glass storefront" width="1056" height="510" fetchpriority="high">
+        <picture>
+          <source media="(max-width: 720px)" srcset="assets/img/hero-truck-mobile.jpg" width="915" height="1601">
+          <img src="assets/img/hero-truck.jpg" alt="Braedon's blacked-out Ram 2500 with tinted windows, parked in front of a glass storefront" width="1056" height="510" fetchpriority="high">
+        </picture>
       </figure>
       <div class="hero__shade" aria-hidden="true"></div>
       <div class="wrap hero__content">
