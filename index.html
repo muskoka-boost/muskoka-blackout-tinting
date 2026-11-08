@@ -58,7 +58,6 @@
         <a href="#services">Services</a>
         <a href="#estimate">Build my tint</a>
         <a href="#property">Home &amp; shop</a>
-        <a href="#shades">Shades</a>
         <a href="#process">Process</a>
         <a href="#about">About</a>
         <a href="#visit">Visit</a>
@@ -75,7 +74,6 @@
       <a href="#services">Services</a>
       <a href="#estimate">Build my tint</a>
       <a href="#property">Homes &amp; storefronts</a>
-      <a href="#shades">Shades</a>
       <a href="#process">Process</a>
       <a href="#about">About</a>
       <a href="#visit">Visit</a>
@@ -310,36 +308,6 @@
       </div>
     </section>
 
-    <!-- SHADE PREVIEW -->
-    <section class="section section--dark" id="shades">
-      <div class="wrap shades">
-        <div class="shades__copy reveal">
-          <p class="kicker">Pick your shade</p>
-          <h2>How dark do you want to go?</h2>
-          <p>Tint is measured in <b>VLT</b> (visible light transmission), which is the percentage of light that gets through the glass. A lower number means a darker window. Drag the slider to see how each shade looks from outside the vehicle.</p>
-          <div class="shades__chips" role="group" aria-label="Shade presets">
-            <button type="button" data-vlt="70">70%</button>
-            <button type="button" data-vlt="50">50%</button>
-            <button type="button" data-vlt="35" class="is-active">35%</button>
-            <button type="button" data-vlt="20">20%</button>
-            <button type="button" data-vlt="5">5% limo</button>
-          </div>
-          <p class="fine">This preview is only a guide. Real shades look different with your glass and the light. Braedon will go over options and Ontario rules with you before any film goes on.</p>
-        </div>
-        <div class="shades__demo reveal">
-          <div class="window" style="--vlt:35">
-            <img src="assets/img/tint-truck.jpg" alt="Classic Ford F-150 Ranger pickup with the selected tint shade applied to its door window and windshield" loading="lazy" width="1800" height="978">
-            <div class="window__film" aria-hidden="true"></div>
-            <div class="window__badge"><b id="vltOut">35%</b><span id="vltName">Medium</span></div>
-          </div>
-          <label class="slider">
-            <span class="sr-only">Tint darkness (VLT %)</span>
-            <input type="range" id="vlt" min="5" max="70" step="1" value="35">
-            <span class="slider__scale" aria-hidden="true"><i>Darker</i><i>Lighter</i></span>
-          </label>
-        </div>
-      </div>
-    </section>
 
     <!-- PROCESS -->
     <section class="section" id="process">
@@ -409,6 +377,10 @@
           <details class="reveal">
             <summary>Do you tint homes and businesses?</summary>
             <p>Yes. Braedon tints residential windows, cottages, storefronts and offices as well as vehicles. Send a few photos or rough measurements through the quote form and he'll get back to you with a price.</p>
+          </details>
+          <details class="reveal">
+            <summary>What do the tint percentages mean?</summary>
+            <p>Tint is measured in VLT (visible light transmission), the percentage of light that gets through the glass. A lower number means a darker window: 70% is very light and 5% is limo. Try different shades on the 3D vehicle in the tint builder.</p>
           </details>
           <details class="reveal">
             <summary>What film do you use?</summary>
@@ -525,7 +497,6 @@
       <div class="footer__col">
         <h4>Explore</h4>
         <a href="#services">Services</a>
-        <a href="#shades">Shade guide</a>
         <a href="#faq">FAQ</a>
         <a href="#quote">Free quote</a>
       </div>
@@ -543,7 +514,7 @@
     <span class="fab__text"><small>Call or text</small><b>(705) 644-3980</b></span>
   </a>
 
-  <script src="assets/js/main.js?v=6" defer></script>
+  <script src="assets/js/main.js?v=7" defer></script>
   <script src="assets/js/estimator.js?v=11" defer></script>
 </body>
 </html>

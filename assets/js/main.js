@@ -36,26 +36,6 @@
     card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
   }));
 
-  // tint shade preview
-  const range = $('#vlt');
-  const win = $('.window');
-  const out = $('#vltOut');
-  const name = $('#vltName');
-  const chips = $$('.shades__chips button');
-  const label = (v) => v <= 10 ? 'Limo' : v <= 25 ? 'Dark' : v <= 40 ? 'Medium' : v <= 55 ? 'Light' : 'Very light';
-  const setVlt = (v) => {
-    v = Number(v);
-    win.style.setProperty('--vlt', v);
-    out.textContent = v + '%';
-    name.textContent = label(v);
-    chips.forEach(c => c.classList.toggle('is-active', Number(c.dataset.vlt) === v));
-  };
-  if (range) {
-    range.addEventListener('input', () => setVlt(range.value));
-    chips.forEach(c => c.addEventListener('click', () => { range.value = c.dataset.vlt; setVlt(c.dataset.vlt); }));
-    setVlt(range.value);
-  }
-
   // home / storefront cards preselect the quote form service
   $$('[data-service]').forEach((a) => a.addEventListener('click', () => {
     const sel = document.querySelector('#quoteForm select[name="service"]');
