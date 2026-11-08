@@ -129,15 +129,31 @@ export function createViewer(host, { onToggle, onReady } = {}) {
     root.traverse((o) => {
       if (!o.isMesh) return;
       const name = (o.material && o.material.name) || '';
-      if (/^Glass/i.test(name)) glassMesh = o;
-      else if (name === 'paint') {
+      if (/^Glass/i.test(name)) { glassMesh = o; return; }
+      // the low-poly body is single-sided: render the inside faces too so door panels / dash
+      // don't vanish when you look in through the glass, and shade them as dark interior trim
+      if (name !== 'paint') {
+        const m2 = o.material.clone();
+        m2.side = THREE.DoubleSide;
+        m2.onBeforeCompile = (sh) => {
+          sh.fragmentShader = sh.fragmentShader.replace('#include <dithering_fragment>',
+            '#include <dithering_fragment>\n if (!gl_FrontFacing) gl_FragColor.rgb = vec3(0.045, 0.05, 0.06) + gl_FragColor.rgb * 0.08;');
+        };
+        m2.customProgramCacheKey = () => 'mbt-2side-' + m2.type;
+        o.material = m2;
+        return;
+      }
+      if (name === 'paint') {
         const mat = o.material.clone();
         mat.color.set('#ffffff');
         mat.userData.uPaint = { value: new THREE.Color(paintHex) };
+        mat.side = THREE.DoubleSide;
         mat.onBeforeCompile = (sh) => {
           sh.uniforms.uPaint = mat.userData.uPaint;
           sh.fragmentShader = 'uniform vec3 uPaint;\n' + sh.fragmentShader.replace('#include <map_fragment>',
-            '#ifdef USE_MAP\n vec4 sdc = texture2D( map, vMapUv );\n diffuseColor.rgb *= mix( vec3(1.0), uPaint, sdc.a ) * sdc.rgb;\n#endif');
+            '#ifdef USE_MAP\n vec4 sdc = texture2D( map, vMapUv );\n diffuseColor.rgb *= mix( vec3(1.0), uPaint, sdc.a ) * sdc.rgb;\n#endif')
+            .replace('#include <dithering_fragment>',
+            '#include <dithering_fragment>\n if (!gl_FrontFacing) gl_FragColor.rgb = vec3(0.045, 0.05, 0.06) + gl_FragColor.rgb * 0.08;');
         };
         mat.customProgramCacheKey = () => 'mbt-paint';
         mat.metalness = Math.min(mat.metalness, 0.35);
