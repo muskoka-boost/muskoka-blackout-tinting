@@ -15,7 +15,7 @@ return [
     'MAIL_TO'        => 'braedon@muskokablackouttinting.com',
 
     // Sender address on the secondary domain hosted on this server.
-    'MAIL_FROM'      => 'noreply@CHANGE-ME-secondary-domain.ca',
+    'MAIL_FROM'      => 'noreply@muskokablackouttinting.ca',
     'MAIL_FROM_NAME' => 'Muskoka Blackout Tinting Website',
 
     'SUBJECT_PREFIX' => 'New quote request',
