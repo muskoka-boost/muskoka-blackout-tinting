@@ -107,20 +107,45 @@ $headers = [
     'X-Mailer' => 'MBT-Website',
 ];
 
-$sent = @mail(
-    $cfg['MAIL_TO'],
-    '=?UTF-8?B?' . base64_encode($subject) . '?=',
-    $body,
-    $headers,
-    '-f' . $cfg['MAIL_FROM']
-);
-
-if (!$sent) {
-    error_log('MBT contact form: mail() failed for ' . $email);
-    respond(false, 'Sorry, the message could not be sent. Please call (705) 644-3980.', 500);
-}
-
 $hits[] = $now;
 @file_put_contents($rlFile, implode(',', $hits), LOCK_EX);
 
-respond(true);
+$sendMail = function () use ($cfg, $subject, $body, $headers, $email) {
+    $ok = @mail(
+        $cfg['MAIL_TO'],
+        '=?UTF-8?B?' . base64_encode($subject) . '?=',
+        $body,
+        $headers,
+        '-f' . $cfg['MAIL_FROM']
+    );
+    if (!$ok) error_log('MBT contact form: mail() failed for ' . $email);
+    return $ok;
+};
+
+if (empty($cfg['SEND_IN_BACKGROUND'])) {
+    if (!$sendMail()) respond(false, 'Sorry, the message could not be sent. Please call (705) 644-3980.', 500);
+    respond(true);
+}
+
+// Answer the visitor right away, then hand the email to the server.
+// (Some hosts' mail() takes 20-30 s; the customer shouldn't have to wait for it.)
+ignore_user_abort(true);
+@set_time_limit(120);
+if ($wantsJson) {
+    $out = json_encode(['ok' => true]);
+    http_response_code(200);
+    header('Content-Type: application/json; charset=utf-8');
+} else {
+    $out = '';
+    header('Location: thanks.html', true, 303);
+}
+header('Connection: close');
+header('Content-Length: ' . strlen($out));
+header('Content-Encoding: none');
+while (ob_get_level() > 0) @ob_end_clean();
+echo $out;
+@flush();
+if (function_exists('fastcgi_finish_request')) @fastcgi_finish_request();
+elseif (function_exists('litespeed_finish_request')) @litespeed_finish_request();
+
+$sendMail();

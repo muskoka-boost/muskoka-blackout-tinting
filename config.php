@@ -22,4 +22,8 @@ return [
 
     // Basic anti-spam: max submissions per IP per hour.
     'RATE_LIMIT_PER_HOUR' => 5,
+
+    // Reply to the visitor instantly and send the email in the background.
+    // Set to false to wait for the mail server (shows an error if sending fails).
+    'SEND_IN_BACKGROUND' => true,
 ];
