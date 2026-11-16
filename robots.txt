@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /contact.php
+Disallow: /config.php
+Disallow: /thanks.html
+
+Sitemap: https://muskokablackouttinting.ca/sitemap.xml
